@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'
 import { assessmentApi } from '../api/assessments'
 import { EmptyState, ErrorState, LoadingState } from '../components/States'
 
+const isAuthenticated = Boolean(window.miniAssessmentSettings?.isAuthenticated)
+
 export function AssessmentListPage() {
   const [page, setPage] = useState(1)
   const [state, setState] = useState({ loading: true, items: [], meta: null, error: null })
@@ -20,7 +22,7 @@ export function AssessmentListPage() {
     <main>
       <div className="page-heading">
         <div><p className="eyebrow">Knowledge checks</p><h1>Assessments</h1></div>
-        <Link className="button" to="/assessments/new">Create assessment</Link>
+        {isAuthenticated && <Link className="button" to="/assessments/new">Create assessment</Link>}
       </div>
       {state.loading && <LoadingState label="Loading assessments…" />}
       {state.error && <ErrorState error={state.error} onRetry={load} />}
