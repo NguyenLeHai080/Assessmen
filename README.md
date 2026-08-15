@@ -52,6 +52,11 @@ nonce at runtime. This is the recommended mode for authenticated create/update/d
 requests because no credential or long-lived secret is stored in JavaScript. The local
 Docker environment already provides the page at <http://localhost:8090/assessment-app/>.
 
+Authenticated administrators can create, edit and delete Assessments from the SPA,
+add Questions to an Assessment, and add scored Answers to each Question. Management
+controls are not rendered for anonymous visitors; server-side capabilities remain the
+authoritative security boundary.
+
 ### Standalone Vite development
 
 ```bash
@@ -174,11 +179,19 @@ source of truth; this implementation does not reconfigure that workflow.
 
 ## AI usage disclosure
 
-OpenAI Codex was used to analyze the supplied test, scaffold implementation files,
-review security decisions and prepare test/documentation checklists. Example task:
+**Tool:** OpenAI Codex.
+
+**Used for:** requirement analysis, initial implementation scaffolding, security/code
+review, test-case suggestions and documentation structure.
+
+**Example prompt:**
 
 > Analyze the required WordPress REST routes for permissions, validation, SQL safety
 > and application-level referential integrity.
 
-The candidate remains responsible for reviewing the code in the target WordPress
-environment, correcting defects and explaining every design decision before delivery.
+**Manually reviewed and adjusted:** the candidate compared the implementation with
+the confirmed API/database contract; reviewed capability checks, sanitization,
+prepared SQL, public visibility and cascade deletion; corrected the Git policy for
+GitHub squash references; and manually ran PHP lint, integration smoke tests, ESLint,
+Vitest and the production build on WordPress/PHP 8.3 before delivery. AI output was
+not accepted as the final result without review and verification.
