@@ -32,6 +32,16 @@ function ma_assert_status(int $expected, WP_REST_Response $response, string $cas
     echo sprintf("PASS %-32s HTTP %d\n", $case, $actual);
 }
 
+function ma_test_administrator(): WP_User
+{
+    $administrators = get_users(array('role' => 'administrator', 'number' => 1));
+    if (! $administrators || ! $administrators[0]->has_cap('edit_assessments')) {
+        throw new RuntimeException('An administrator with assessment capabilities was not found. Activate the plugin first.');
+    }
+
+    return $administrators[0];
+}
+
 $assessment_id = 0;
 $subscriber_id = 0;
 
@@ -65,10 +75,7 @@ try {
         'subscriber create'
     );
 
-    $admin = get_user_by('login', 'assessment_admin');
-    if (! $admin) {
-        throw new RuntimeException('Local administrator assessment_admin was not found.');
-    }
+    $admin = ma_test_administrator();
     wp_set_current_user((int) $admin->ID);
 
     ma_assert_status(
@@ -128,8 +135,8 @@ try {
     echo "ALL INTEGRATION SMOKE TESTS PASSED\n";
 } finally {
     if ($assessment_id > 0) {
-        $cleanup_admin = get_user_by('login', 'assessment_admin');
-        wp_set_current_user($cleanup_admin ? (int) $cleanup_admin->ID : 0);
+        $cleanup_admin = ma_test_administrator();
+        wp_set_current_user((int) $cleanup_admin->ID);
         ma_test_request('DELETE', '/assessment/v1/assessments/' . $assessment_id);
     }
     if ($subscriber_id > 0) {
