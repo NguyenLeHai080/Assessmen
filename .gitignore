@@ -1,0 +1,13 @@
+.env
+.env.local
+node_modules/
+frontend/dist/
+coverage/
+*.log
+*.zip
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+wp/
+.docker-data/
