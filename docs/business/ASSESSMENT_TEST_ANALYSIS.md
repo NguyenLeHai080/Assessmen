@@ -1564,57 +1564,7 @@ vì các query luôn lọc theo parent trước.
 
 ---
 
-## 28. Góc nhìn chấm bài của reviewer
-
-Đề không cung cấp thang điểm chính thức. Bảng dưới là **suy luận**, dùng để tự review,
-không khẳng định đây là rubric nội bộ của GrowBYCAP.
-
-| Nhóm | Trọng số tự đánh giá | Dấu hiệu bài làm tốt |
-| --- | ---: | --- |
-| Correctness và API contract | 25% | Đủ route, status/response đúng, edge cases hoạt động |
-| Security và authorization | 20% | Capability, backend validation, SQL/XSS/secret controls |
-| Database và migration | 15% | Schema/index đúng, versioning, integrity và delete policy |
-| Architecture và code quality | 15% | Phân trách nhiệm hợp lý, dễ đọc, không over-engineer |
-| React SPA | 10% | API service, states, errors và form hoạt động |
-| Testing | 5% | Critical paths có test hoặc evidence rõ ràng |
-| Documentation và bàn giao | 5% | Reviewer cài/chạy được nhanh |
-| Git và tính tự chủ | 5% | Commit rõ, quyết định được giải thích, không secret |
-
-### 28.1. Các câu hỏi reviewer có thể đặt
-
-1. Vì sao dùng custom tables thay vì custom post types?
-2. Vì sao không dùng physical foreign keys?
-3. Migration chạy thế nào khi update plugin mà không reactivate?
-4. Vì sao public được hoặc không được xem Assessment draft?
-5. Làm sao tránh lộ score của Answer?
-6. Vì sao sanitize input vẫn chưa đủ để chống SQL injection?
-7. PUT và PATCH trong implementation khác nhau thế nào?
-8. Xóa Assessment có xử lý Question/Answer ra sao nếu một query thất bại?
-9. SPA authenticate với WordPress bằng cách nào?
-10. Làm sao phân biệt 401 với 403?
-11. Tại sao affected rows bằng 0 không nhất thiết là lỗi?
-12. Làm sao tránh N+1 request?
-13. Nếu có thêm một triệu Assessment, thiết kế nào cần thay đổi?
-14. Phần nào dùng AI và ứng viên đã tự xác minh bằng cách nào?
-
-Ứng viên nên có câu trả lời nhất quán với code và README, không chỉ trả lời theo lý
-thuyết.
-
-### 28.2. Dấu hiệu có thể bị đánh giá thấp
-
-- Demo chỉ chạy trên máy ứng viên, reviewer không thể cài lại.
-- ZIP chứa sai cấp thư mục hoặc thiếu file build cần thiết.
-- Tất cả code nằm trong một file lớn, trộn route, SQL và HTML.
-- Permission kiểm tra ở UI nhưng route vẫn public.
-- Chỉ có happy path, không xử lý parent không tồn tại hoặc payload sai.
-- README mô tả hành vi khác với code.
-- Commit duy nhất kiểu “complete project”.
-- Có comment/code do AI sinh nhưng ứng viên không giải thích được.
-- Làm nhiều tính năng phụ nhưng thiếu migration, pagination hoặc security bắt buộc.
-
----
-
-## 29. Checklist demo và kịch bản trình bày bài
+## 28. Checklist demo và kịch bản trình bày bài
 
 Nếu HR hoặc technical reviewer yêu cầu demo, nên trình bày theo thứ tự sau trong
 10–15 phút:
@@ -1645,7 +1595,7 @@ Trước khi gửi hoặc demo:
 
 ---
 
-## 30. Kết luận mở rộng
+## 29. Kết luận mở rộng
 
 Ở mức phân tích sâu, giá trị lớn nhất của bài test không nằm ở số endpoint mà ở cách
 các lớp bảo vệ nhau:
