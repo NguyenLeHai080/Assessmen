@@ -36,7 +36,7 @@ jobs:
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
           HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: |
-          pattern='^(feat|fix|refactor|docs|chore|style|perf|vendor|test|ci|build|revert)(\([a-z0-9._-]+\))?!?: .+ #[0-9]+$'
+          pattern='^(feat|fix|refactor|docs|chore|style|perf|vendor|test|ci|build|revert)(\([a-z0-9._-]+\))?!?: .+( #[0-9]+| \(#[0-9]+\))$'
           failed=0
 
           while IFS= read -r message; do
@@ -50,6 +50,6 @@ jobs:
           done < <(git log --format='%s' "$BASE_SHA..$HEAD_SHA")
 
           if [[ "$failed" -ne 0 ]]; then
-            echo 'Expected: type(scope): description #issue-id'
+            echo 'Expected: type(scope): description #issue-id or type(scope): description (#pull-request)'
             exit 1
           fi
