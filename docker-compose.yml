@@ -1,0 +1,39 @@
+services:
+  database:
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: assessment_wp
+      MYSQL_USER: assessment
+      MYSQL_PASSWORD: ${WP_DB_PASSWORD:?Set WP_DB_PASSWORD in .env}
+      MYSQL_ROOT_PASSWORD: ${WP_DB_ROOT_PASSWORD:?Set WP_DB_ROOT_PASSWORD in .env}
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - assessment_db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -p$${MYSQL_ROOT_PASSWORD}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 240s
+
+  wordpress:
+    image: wordpress:php8.3-apache
+    restart: unless-stopped
+    depends_on:
+      database:
+        condition: service_healthy
+    ports:
+      - "8090:80"
+    environment:
+      WORDPRESS_DB_HOST: database:3306
+      WORDPRESS_DB_NAME: assessment_wp
+      WORDPRESS_DB_USER: assessment
+      WORDPRESS_DB_PASSWORD: ${WP_DB_PASSWORD:?Set WP_DB_PASSWORD in .env}
+      WORDPRESS_DEBUG: "1"
+    volumes:
+      - ./wp:/var/www/html
+      - ./plugin-assessment:/var/www/html/wp-content/plugins/plugin-assessment
+
+volumes:
+  assessment_db_data:
